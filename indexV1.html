@@ -54,11 +54,12 @@
 <script src="uStates.js"></script> <!-- creates uStates. -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
+
 var filteredData;
-var t1;
 var companyStateCategories=[];
 var sampleData;
-var stateData = {};
+var stateCategories = {};
+var stateMarkets = {};
 
 function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
 	return "<h4>"+n+"</h4><table>"+
@@ -99,6 +100,7 @@ d3.csv("filteredData.csv", function (error, rows)
 	{
 		var state = d.company_state_code;
 		var categories = splitCategory(d.company_category_list);
+		var market = d.company_market;
 
 		companyStateCategories.push({
 			"name":d.company_name,
@@ -106,23 +108,36 @@ d3.csv("filteredData.csv", function (error, rows)
 			"categories":categories
 		});
 
-		if (stateData[state] == null) {
-			stateData[state] = {};
+		// State Markets
+		if (stateMarkets[state] == null) {
+			stateMarkets[state] = {};
+			stateMarkets[state][market] = 1;
+		}else{
+			if (stateMarkets[state][market]) {
+				stateMarkets[state][market]++;
+			}else{
+				stateMarkets[state][market] = 1;
+			}
+		}
+
+		// State Categories
+		if (stateCategories[state] == null) {
+			stateCategories[state] = {};
 			categories.forEach(function (category){
-				stateData[state][category] = 1;
+				stateCategories[state][category] = 1;
 			});
 		}else{
 			categories.forEach(function (category){
-				if (stateData[state][category]) {
-					stateData[state][category]++;
+				if (stateCategories[state][category]) {
+					stateCategories[state][category]++;
 				}else{
-					stateData[state][category] = 1;
+					stateCategories[state][category] = 1;
 				}
 			});
 		}
 	});
 
-	a=[];
+	a = [];
 	states.forEach(function(d){
 		a.push({state:d,number:0});
 	})
