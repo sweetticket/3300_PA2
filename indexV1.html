@@ -51,70 +51,84 @@
 <body>
 <div id="tooltip"></div><!-- div to hold tooltip. -->
 <svg width="960" height="600" id="statesvg"></svg> <!-- svg to hold the map. -->
-<script src="uStates.js"></script> <!-- creates uStates. --> 
+<script src="uStates.js"></script> <!-- creates uStates. -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
+var filteredData;
+var t1;
+var companyStateCategories=[];
+var sampleData;
 
-	var filteredData;
-	var t1;
-	var companyStateCategories = [];
 
-	var splitCategory = function(categories) 
-	{
-		categories = categories.split("|");
-		categories.shift();
-		categories.pop();
-		return categories;
-	}
 
-	d3.csv("filteredData.csv", function (error, rows) 
-	{
-		var i =- 1;
+function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
+	return "<h4>"+n+"</h4><table>"+
+		// "<tr><td>Low</td><td>"+(d.low)+"</td></tr>"+
+		// "<tr><td>Average</td><td>"+(d.avg)+"</td></tr>"+
+		// "<tr><td>High</td><td>"+(d.high)+"</td></tr>"+
+		// "</table>";
 
-		filteredData = d3.map(rows, function (row) 
-		{
+		"<tr><td>Common</td><td>"+(d.number)+"</td></tr>"+
+		"</table>";
+}
+
+d3.csv("filteredData.csv", function (error, rows) {
+	var i=-1;
+	filteredData = d3.map(rows,
+		function (row) {
 			i++;
 			return i;
-		});
-		
-		values = filteredData.values();
+		}
+	);
+	var splitCategory=function(d){
+			var temp=d.company_category_list;
+			temp=temp.split("|");
+			temp.shift();
+			temp.pop();
+			return temp;
+		}
 
-		values.forEach(function (d) {
-			companyStateCategories.push({	
-				"name":       d.company_name,
-				"state":      d.company_state_code,
-				"categories": splitCategory(d.company_category_list)
-			});
-		})
-	});
-
-	function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
-		return "<h4>"+n+"</h4><table>"+
-			// "<tr><td>Low</td><td>"+(d.low)+"</td></tr>"+
-			// "<tr><td>Average</td><td>"+(d.avg)+"</td></tr>"+
-			// "<tr><td>High</td><td>"+(d.high)+"</td></tr>"+
-			// "</table>";
-
-			"<tr><td>Common</td><td>"+(d.low)+"</td></tr>"+
-			"</table>";
-	}
-	
-	var sampleData ={};	/* Sample random data. */	
-	["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
+	var states=["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
 	"ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
 	"MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
 	"CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
-	"WI", "MO", "AR", "OK", "KS", "LS", "VA"]
-		.forEach(function(d){ 
-			var low=Math.round(100*Math.random()), 
-				mid=Math.round(100*Math.random()), 
-				high=Math.round(100*Math.random());
-			sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
-					avg:Math.round((low+mid+high)/3), color:d3.interpolate("#ffffcc", "#800026")(low/100)}; 
-		});
+	"WI", "MO", "AR", "OK", "KS", "LS", "VA"];
+
+	filteredData.values().forEach(function(d){
+		companyStateCategories.push({name:d.company_name,state:d.company_state_code,categories:splitCategory(d)}
+		);
+	})
+
+	a=[];
+	states.forEach(function(d){
+		a.push({state:d,number:0});
+	})
+	statesTotalNumber=a;
+
+	companyStateCategories.forEach(function(c){
+		statesTotalNumber.forEach(function(s){
+			//console.log(s.state);
+			if(c.state==s.state){
+				s.number++;
+			}
+		})
+	})
+
+	var sampleData ={};	/* Sample random data. */	
 	
-	/* draw states on id #statesvg */	
+
+	statesTotalNumber.forEach(function(d){ 
+		sampleData[d.state]={number:d.number,color:d3.interpolate("#ffffcc", "#800026")(1)}; 
+	});
+	console.log(sampleData);
+
+		/* draw states on id #statesvg */	
 	uStates.draw("#statesvg", sampleData, tooltipHtml);
+});
+	
+	
+
+
 
 </script>
 
