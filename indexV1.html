@@ -51,34 +51,40 @@
 <body>
 <div id="tooltip"></div><!-- div to hold tooltip. -->
 <svg width="960" height="600" id="statesvg"></svg> <!-- svg to hold the map. -->
-<script src="uStates.js"></script> <!-- creates uStates. -->
+<!--<script src="uStates.js"></script> <!-- creates uStates. --> -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
+
 	var filteredData;
 	var t1;
-	var companyStateCategories=[];
-	d3.csv("filteredData.csv", function (error, rows) {
-		var i=-1;
-		filteredData = d3.map(rows,
-			function (row) {
-				i++;
-				return i;
-			}
-		);
-		var splitCategory=function(d){
-				var temp=d.company_category_list;
-				temp=temp.split("|");
-				console.log(temp);
-				temp.shift();
-				temp.pop();
-				return temp;
-			}
-		t1=filteredData.values();
-		t1.forEach(function(d){
-			companyStateCategories.push({name:d.company_name,state:d.company_state_code,categories:splitCategory(d)}
+	var companyStateCategories = [];
 
-				//d.company_category_list.split("|").splice(0,1)}
-			);
+	var splitCategory = function(categories) 
+	{
+		categories = categories.split("|");
+		categories.shift();
+		categories.pop();
+		return categories;
+	}
+
+	d3.csv("filteredData.csv", function (error, rows) 
+	{
+		var i =- 1;
+
+		filteredData = d3.map(rows, function (row) 
+		{
+			i++;
+			return i;
+		});
+		
+		values = filteredData.values();
+
+		values.forEach(function (d) {
+			companyStateCategories.push({	
+				"name":       d.company_name,
+				"state":      d.company_state_code,
+				"categories": splitCategory(d.company_category_list)
+			});
 		})
 	});
 
@@ -108,7 +114,7 @@
 		});
 	
 	/* draw states on id #statesvg */	
-	uStates.draw("#statesvg", sampleData, tooltipHtml);
+	// uStates.draw("#statesvg", sampleData, tooltipHtml);
 
 </script>
 
