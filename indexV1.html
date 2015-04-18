@@ -112,9 +112,19 @@ d3.csv("filteredData.csv", function (error, rows)
 		if (stateMarkets[state] == null) {
 			stateMarkets[state] = {};
 			stateMarkets[state][market] = 1;
+			stateMarkets[state]['topMarket'] = {};
+			stateMarkets[state]['topMarket']['name'] = market;
+			stateMarkets[state]['topMarket']['count'] = 1;
 		}else{
 			if (stateMarkets[state][market]) {
-				stateMarkets[state][market]++;
+				var count = stateMarkets[state][market] + 1;
+				stateMarkets[state][market] = count;
+
+				// Update Top Market
+				if (count > stateMarkets[state]['topMarket']['count']) {
+					stateMarkets[state]['topMarket']['name'] = market;
+					stateMarkets[state]['topMarket']['count'] = count;
+				}
 			}else{
 				stateMarkets[state][market] = 1;
 			}
@@ -126,10 +136,18 @@ d3.csv("filteredData.csv", function (error, rows)
 			categories.forEach(function (category){
 				stateCategories[state][category] = 1;
 			});
+			stateCategories[state]['topCategory'] = {};
+			stateCategories[state]['topCategory']['name'] = categories[0];
+			stateCategories[state]['topCategory']['count'] = 1;
 		}else{
 			categories.forEach(function (category){
 				if (stateCategories[state][category]) {
-					stateCategories[state][category]++;
+					var count = stateCategories[state][category] + 1;
+					stateCategories[state][category] = count;
+					if (count > stateCategories[state]['topCategory']['count']) {
+						stateCategories[state]['topCategory']['name'] = category;
+						stateCategories[state]['topCategory']['count'] = count;
+					}
 				}else{
 					stateCategories[state][category] = 1;
 				}
