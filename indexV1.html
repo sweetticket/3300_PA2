@@ -58,8 +58,7 @@ var filteredData;
 var t1;
 var companyStateCategories=[];
 var sampleData;
-
-
+var stateData = {};
 
 function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
 	return "<h4>"+n+"</h4><table>"+
@@ -72,32 +71,56 @@ function tooltipHtml(n, d){	/* function to create html content string in tooltip
 		"</table>";
 }
 
-d3.csv("filteredData.csv", function (error, rows) {
-	var i=-1;
+var splitCategory = function(categories)
+{
+	categories = categories.split("|");
+	categories.shift();
+	categories.pop();
+	return categories;
+}
+
+d3.csv("filteredData.csv", function (error, rows) 
+{
+	var i =- 1;
 	filteredData = d3.map(rows,
 		function (row) {
 			i++;
 			return i;
 		}
 	);
-	var splitCategory=function(d){
-			var temp=d.company_category_list;
-			temp=temp.split("|");
-			temp.shift();
-			temp.pop();
-			return temp;
-		}
 
-	var states=["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
+	var states = ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
 	"ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
 	"MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
 	"CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
 	"WI", "MO", "AR", "OK", "KS", "LS", "VA"];
 
-	filteredData.values().forEach(function(d){
-		companyStateCategories.push({name:d.company_name,state:d.company_state_code,categories:splitCategory(d)}
-		);
-	})
+	filteredData.values().forEach(function (d)
+	{
+		var state = d.company_state_code;
+		var categories = splitCategory(d.company_category_list);
+
+		companyStateCategories.push({
+			"name":d.company_name,
+			"state":state,
+			"categories":categories
+		});
+
+		if (stateData[state] == null) {
+			stateData[state] = {};
+			categories.forEach(function (category){
+				stateData[state][category] = 1;
+			});
+		}else{
+			categories.forEach(function (category){
+				if (stateData[state][category]) {
+					stateData[state][category]++;
+				}else{
+					stateData[state][category] = 1;
+				}
+			});
+		}
+	});
 
 	a=[];
 	states.forEach(function(d){
@@ -116,20 +139,14 @@ d3.csv("filteredData.csv", function (error, rows) {
 
 	var sampleData ={};	/* Sample random data. */	
 	
-
 	statesTotalNumber.forEach(function(d){ 
 		sampleData[d.state]={number:d.number,color:d3.interpolate("#ffffcc", "#800026")(1)}; 
 	});
-	console.log(sampleData);
+	// console.log(sampleData);
 
 		/* draw states on id #statesvg */	
 	uStates.draw("#statesvg", sampleData, tooltipHtml);
 });
-	
-	
-
-
-
 </script>
 
 </body>
