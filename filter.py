@@ -1,9 +1,6 @@
 import csv
 import sys
 
-# create a threshold
-THRESHOLD = 75
-
 # get input and output files
 f_reader = open('CrunchBase_Acquisitions.csv', 'rU')
 f_writer = open('filteredData.csv','wt')
@@ -40,13 +37,16 @@ writer.writerow(['company_permalink',
 	'price_currency_code']);
 
 # iteration
+count = 0
+
 try:
 	for row in reader:
 		country = row[4]
 		category = row[2]
 		if country == 'USA' and len(category) > 0:
 				writer.writerow(row)
-				print category
+				count++
+				print count;
 finally:
     f_reader.close()
     f_writer.close()
