@@ -78,6 +78,29 @@ d3.csv("filteredData.csv", function (error, rows)
 		if (stateMarkets[state] == null) {
 			stateMarkets[state] = {};
 			stateMarkets[state][market] = 1;
+			stateMarkets[state][1980] = 0;
+			stateMarkets[state][1981] = 0;
+			stateMarkets[state][1984] = 0;
+			stateMarkets[state][1986] = 0;
+			stateMarkets[state][1987] = 0;
+			stateMarkets[state][1988] = 0;
+			stateMarkets[state][1991] = 0;
+			stateMarkets[state][1992] = 0;
+			stateMarkets[state][1993] = 0;
+			stateMarkets[state][1994] = 0;
+			stateMarkets[state][1995] = 0;
+			stateMarkets[state][1996] = 0;
+			stateMarkets[state][1997] = 0;
+			stateMarkets[state][1998] = 0;
+			stateMarkets[state][1999] = 0;
+			stateMarkets[state][2000] = 0;	
+			stateMarkets[state][2001] = 0;
+			stateMarkets[state][2002] = 0;
+			stateMarkets[state][2003] = 0;
+			stateMarkets[state][2004] = 0;
+			stateMarkets[state][2005] = 0;
+			stateMarkets[state][2006] = 0;
+			stateMarkets[state][2007] = 0;
 			stateMarkets[state][2008] = 0;
 			stateMarkets[state][2009] = 0;
 			stateMarkets[state][2010] = 0;
@@ -188,10 +211,19 @@ d3.csv("filteredData.csv", function (error, rows)
 	function dashboard(id, fData){
 	    var barColor = 'steelblue';
 	    //TO COLOR
-	    function segColor(c){ return {_2008:"#843c39", _2009:"#ad494a", _2010:"#d6616b", _2011:"#e7969c", _2012:"#7b4173", _2013:"#a55194", _2014:"#ce6dbd"}[c]; }
+	    function segColor(c){ return {_1980:"#3182bd", _1981:"#6baed6", _1984:"#9ecae1", _1986:"#c6dbef", _1987:"#e6550d", _1988:"#fd8d3c",
+		_1992:"#fdae6b", _1993:"#fdd0a2", _1994:"#31a354", _1995:"#74c476", _1996:"#393b79", _1997:"#5254a3", _1998:"#6b6ecf", _1999:"#9c9ede", _2000:"#637939",
+		_2001:"#8ca252", _2002:"#b5cf6b", _2003:"#cedb9c", _2004:"#8c6d31", _2005:"#bd9e39", _2006:"#e7ba52", _2007:"#e7cb94",
+			_2008:"#843c39", _2009:"#ad494a", _2010:"#d6616b", _2011:"#e7969c", _2012:"#7b4173", _2013:"#a55194", _2014:"#ce6dbd"}[c]; }
 	    //TO
 	    // compute total for each state.
-	    fData.forEach(function(d){d.total=d.freq._2008+d.freq._2009+d.freq._2010+d.freq._2011+d.freq._2012+d.freq._2013+d.freq._2014;});
+	    fData.forEach(function(d){d.total=d.freq._1980+d.freq._1984+d.freq._1986+d.freq._1987+
+					  d.freq._1988+d.freq._1992+d.freq._1993+d.freq._1994+
+					  d.freq._1995+d.freq._1996+d.freq._1997+d.freq._1998+
+					  d.freq._1999+d.freq._2000+d.freq._2001+d.freq._2002+
+					  d.freq._2003+d.freq._2003+d.freq._2004+d.freq._2005+
+					  d.freq._2006+d.freq._2007+d.freq._2008+d.freq._2009+
+					  d.freq._2010+d.freq._2011+d.freq._2012+d.freq._2013+d.freq._2014;});
 	    
 	    // function to handle histogram.
 	    function histoGram(fD){
@@ -371,7 +403,9 @@ d3.csv("filteredData.csv", function (error, rows)
 	    }
 	    //TO
 	    // calculate total frequency by segment for all state.
-	    var tF = ['_2008','_2009','_2010', '_2011', '_2012', '_2013', '_2014'].map(function(d){ 
+	    var tF = ['_1980','_1981', '_1984', '_1986', '_1987','_1988',
+		'_1992', '_1993', '_1994', '_1995', '_1996', '_1997', '_1998', '_1999', '_2000',
+		'_2001', '_2002', '_2003', '_2004', '_2005', '_2006', '_2007','_2008','_2009','_2010', '_2011', '_2012', '_2013', '_2014'].map(function(d){ 
 	        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
 	    });    
 	    console.log(tF);
@@ -391,7 +425,20 @@ d3.csv("filteredData.csv", function (error, rows)
 		if (stateMarkets[d] != null) {
 			
 		var t=topMarCount(stateMarkets[d]);
-		freqData1.push({State:d,freq:{_2008:stateMarkets[d][2008], _2009:stateMarkets[d][2009], _2010:stateMarkets[d][2010],
+		freqData1.push({State:d,freq:{
+			_1980:stateMarkets[d][1998], _1981:stateMarkets[d][1981], _1984:stateMarkets[d][1984],
+										_1986:stateMarkets[d][1986], _1987:stateMarkets[d][1987], _1988:stateMarkets[d][1988],
+										_1992:stateMarkets[d][1992],
+										
+										_1993:stateMarkets[d][1993], _1994:stateMarkets[d][1994], _1995:stateMarkets[d][1995],
+										_1996:stateMarkets[d][1996], _1997:stateMarkets[d][1997], _1998:stateMarkets[d][1998],
+										_1999:stateMarkets[d][1999],
+										
+										_2000:stateMarkets[d][2000], _2001:stateMarkets[d][2001], _2002:stateMarkets[d][2002],
+										_2003:stateMarkets[d][2003], _2004:stateMarkets[d][2004], _2005:stateMarkets[d][2005],
+										_2006:stateMarkets[d][2006], _2007:stateMarkets[d][2007],
+										
+			_2008:stateMarkets[d][2008], _2009:stateMarkets[d][2009], _2010:stateMarkets[d][2010],
 										_2011:stateMarkets[d][2011], _2012:stateMarkets[d][2012], _2013:stateMarkets[d][2013],
 										_2014:stateMarkets[d][2014]}})
 		}
