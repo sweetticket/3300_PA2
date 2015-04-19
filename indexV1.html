@@ -67,6 +67,7 @@ d3.csv("filteredData.csv", function (error, rows)
 		var state = d.company_state_code;
 		var categories = splitCategory(d.company_category_list);
 		var market = d.company_market;
+		var year = d.acquired_year;
 		companyStateCategories.push({
 			"name":d.company_name,
 			"state":state,
@@ -77,6 +78,14 @@ d3.csv("filteredData.csv", function (error, rows)
 		if (stateMarkets[state] == null) {
 			stateMarkets[state] = {};
 			stateMarkets[state][market] = 1;
+			stateMarkets[state][2008] = 0;
+			stateMarkets[state][2009] = 0;
+			stateMarkets[state][2010] = 0;
+			stateMarkets[state][2011] = 0;
+			stateMarkets[state][2012] = 0;
+			stateMarkets[state][2013] = 0;
+			stateMarkets[state][2014] = 0;
+			stateMarkets[state][year] = 1;
 			stateMarkets[state]['topMarket'] = {};
 			stateMarkets[state]['topMarket']['name'] = market;
 			stateMarkets[state]['topMarket']['count'] = 1;
@@ -84,6 +93,7 @@ d3.csv("filteredData.csv", function (error, rows)
 			if (stateMarkets[state][market]) {
 				var count = stateMarkets[state][market] + 1;
 				stateMarkets[state][market] = count;
+				stateMarkets[state][year]++;
 				// Update Top Market
 				if (count > stateMarkets[state]['topMarket']['count']) {
 					stateMarkets[state]['topMarket']['name'] = market;
@@ -178,10 +188,10 @@ d3.csv("filteredData.csv", function (error, rows)
 	function dashboard(id, fData){
 	    var barColor = 'steelblue';
 	    //TO COLOR
-	    function segColor(c){ return {low:"#807dba", mid:"#e08214",high:"#41ab5d"}[c]; }
+	    function segColor(c){ return {_2008:"#843c39", _2009:"#ad494a", _2010:"#d6616b", _2011:"#e7969c", _2012:"#7b4173", _2013:"#a55194", _2014:"#ce6dbd"}[c]; }
 	    //TO
 	    // compute total for each state.
-	    fData.forEach(function(d){d.total=d.freq.low+d.freq.mid+d.freq.high;});
+	    fData.forEach(function(d){d.total=d.freq._2008+d.freq._2009+d.freq._2010+d.freq._2011+d.freq._2012+d.freq._2013+d.freq._2014;});
 	    
 	    // function to handle histogram.
 	    function histoGram(fD){
@@ -331,7 +341,7 @@ d3.csv("filteredData.csv", function (error, rows)
 				.attr("fill",function(d){ return segColor(d.type); });
 	            
 	        // create the second column for each segment.
-	        tr.append("td").text(function(d){ return d.type;});
+	        tr.append("td").text(function(d){ return d.type.slice(1,5);});
 
 	        // create the third column for each segment.
 	        tr.append("td").attr("class",'legendFreq')
@@ -361,7 +371,7 @@ d3.csv("filteredData.csv", function (error, rows)
 	    }
 	    //TO
 	    // calculate total frequency by segment for all state.
-	    var tF = ['low','mid','high'].map(function(d){ 
+	    var tF = ['_2008','_2009','_2010', '_2011', '_2012', '_2013', '_2014'].map(function(d){ 
 	        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
 	    });    
 	    console.log(tF);
@@ -378,22 +388,15 @@ d3.csv("filteredData.csv", function (error, rows)
 	 var freqData1=[];
 	companyStateCategories;
 	states.forEach(function(d){
+		if (stateMarkets[d] != null) {
+			
 		var t=topMarCount(stateMarkets[d]);
-		freqData1.push({State:d,freq:{low:t+1,mid:t+10,high:t*2+1}})});
+		freqData1.push({State:d,freq:{_2008:stateMarkets[d][2008], _2009:stateMarkets[d][2009], _2010:stateMarkets[d][2010],
+										_2011:stateMarkets[d][2011], _2012:stateMarkets[d][2012], _2013:stateMarkets[d][2013],
+										_2014:stateMarkets[d][2014]}})
+		}
+		});
 	console.log(freqData1);
-	var freqData=[
-	{State:'AL',freq:{low:4786, mid:1319, high:249}}
-	,{State:'AZ',freq:{low:1101, mid:412, high:674}}
-	,{State:'CT',freq:{low:932, mid:2149, high:418}}
-	,{State:'DE',freq:{low:832, mid:1152, high:1862}}
-	,{State:'FL',freq:{low:4481, mid:3304, high:948}}
-	,{State:'GA',freq:{low:1619, mid:167, high:1063}}
-	,{State:'IA',freq:{low:1819, mid:247, high:1203}}
-	,{State:'IL',freq:{low:4498, mid:3852, high:942}}
-	,{State:'IN',freq:{low:797, mid:1849, high:1534}}
-	,{State:'KS',freq:{low:162, mid:379, high:471}}
-	];
-
 	dashboard('#dashboard',freqData1);
 });
 </script>
