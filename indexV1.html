@@ -1,98 +1,16 @@
 <!DOCTYPE html>
+<head>
 <meta charset="utf-8">
-<style>
-body{
-    width:1060px;
-    margin:50px auto;
-}
-path {  stroke: #fff; }
-path:hover {  opacity:0.9; }
-rect:hover {  fill:blue; }
-.axis {  font: 10px sans-serif; }
-.legend tr{    border-bottom:1px solid grey; }
-.legend tr:first-child{    border-top:1px solid grey; }
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {  display: none; }
-.legend{
-    margin-bottom:76px;
-    display:inline-block;
-    border-collapse: collapse;
-    border-spacing: 0px;
-}
-.legend td{
-    padding:4px 5px;
-    vertical-align:bottom;
-}
-.legendFreq, .legendPerc{
-    align:right;
-    width:50px;
-}
-
-
-
-.state{
-		fill: none;
-		stroke: #a9a9a9;
-		stroke-width: 1;
-}
-.state:hover{
-	fill-opacity:0.5;
-}
-#tooltip {   
-	position: absolute;           
-	text-align: center;
-	padding: 20px;             
-	margin: 10px;
-	font: 12px sans-serif;        
-	background: lightsteelblue;   
-	border: 1px;      
-	border-radius: 2px;           
-	pointer-events: none;         
-}
-#tooltip h4{
-	margin:0;
-	font-size:14px;
-}
-#tooltip{
-	background:rgba(0,0,0,0.9);
-	border:1px solid grey;
-	border-radius:5px;
-	font-size:12px;
-	width:auto;
-	padding:4px;
-	color:white;
-	opacity:0;
-}
-#tooltip table{
-	table-layout:fixed;
-}
-#tooltip tr td{
-	padding:0;
-	margin:0;
-}
-#tooltip tr td:nth-child(1){
-	width:50px;
-}
-#tooltip tr td:nth-child(2){
-	text-align:center;
-}
-
-</style>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="uStates.js"></script>
+</head>
 <body>
 
-<body>
-<div id="tooltip"></div><!-- div to hold tooltip. -->
+<div id="tooltip"></div> <!-- div to hold tooltip. -->
 <svg width="1000" height="600" id="statesvg"></svg> <!-- svg to hold the map. -->
 <div id='dashboard'></div>
-<script src="uStates.js"></script> <!-- creates uStates. -->
-<script src="http://d3js.org/d3.v3.min.js"></script>
+
 <script>
 var filteredData;
 var t1;
@@ -103,6 +21,7 @@ var stateMarkets = {};
 var states;
 var freqData=[];
 var freqData1=[];
+
 function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
 	return "<h4>"+n+"</h4><table>"+
 		// "<tr><td>Low</td><td>"+(d.low)+"</td></tr>"+
@@ -143,6 +62,7 @@ d3.csv("filteredData.csv", function (error, rows)
 			"state":state,
 			"categories":categories
 		});
+		
 		// State Markets
 		if (stateMarkets[state] == null) {
 			stateMarkets[state] = {};
@@ -466,10 +386,6 @@ d3.csv("filteredData.csv", function (error, rows)
 
 	dashboard('#dashboard',freqData1);
 });
-	
-
-
-
 </script>
-
 </body>
+</html>
