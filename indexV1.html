@@ -3,15 +3,16 @@
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css">
-<link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
-<script src="uStates.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'><script src="uStates.js"></script>
 </head>
 <body>
 
 <div id = "header">
 	<h1> STARTUP ACQUISITIONS </h1>
-	<h3> from CrunchBase, Oct 2014 </h3>
-	<hr>
+	<h3> Data from CrunchBase, Oct 2014 </h3>
+	<p>
+	This is a snapshot of startup acquisitions from CrunchBase. This data was extracted from CrunchBase on October 07 2014. Here we can add more introduction to our dataset and how users can interact with our graphs.
+	</p>
 </div>
 
 <div id="tooltip"></div> <!-- div to hold tooltip. -->
@@ -35,6 +36,8 @@ function tooltipHtml(n, d){	/* function to create html content string in tooltip
 		// "<tr><td>Average</td><td>"+(d.avg)+"</td></tr>"+
 		// "<tr><td>High</td><td>"+(d.high)+"</td></tr>"+
 		// "</table>";
+		"<hr>"+
+		"<tr><td>Acquisitions: </td><td>"+(d.number)+"</td></tr>"+
 		"<tr><td>Market: </td><td>"+(d.common)+"</td></tr>"+
 		"</table>";
 }
@@ -165,7 +168,7 @@ d3.csv("filteredData.csv", function (error, rows)
 
 	statesTotalNumber.forEach(function(d){ 
 		console.log(d,stateMarkets[d.state]);
-		sampleData[d.state]={number:d.number,common:topMarName(stateMarkets[d.state]),color:whitetoblue(d.number+1)}; 
+		sampleData[d.state] = {number:d.number,common:topMarName(stateMarkets[d.state]),color:whitetoblue(d.number+1)}; 
 	
 	});
 
