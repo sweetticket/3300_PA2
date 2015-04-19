@@ -137,7 +137,8 @@ rect:hover
 {
 	text-align: center;
 	margin:0;
-	font-size:14px;
+	font-size:12px;
+	text-transform: uppercase;
 }
 
 #tooltip hr
