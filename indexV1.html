@@ -3,12 +3,19 @@
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css">
+<link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
 <script src="uStates.js"></script>
 </head>
 <body>
 
+<div id = "header">
+	<h1> STARTUP ACQUISITIONS </h1>
+	<h3> from CrunchBase, Oct 2014 </h3>
+	<hr>
+</div>
+
 <div id="tooltip"></div> <!-- div to hold tooltip. -->
-<svg width="1000" height="600" id="statesvg"></svg> <!-- svg to hold the map. -->
+<svg id="statesvg"></svg> <!-- svg to hold the map. -->
 <div id='dashboard'></div>
 
 <script>
