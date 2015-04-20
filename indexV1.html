@@ -15,9 +15,16 @@
 	</p>
 </div>
 
-<div id="tooltip"></div> <!-- div to hold tooltip. -->
-<svg id="statesvg"></svg> <!-- svg to hold the map. -->
-<div id='dashboard'></div>
+<div id = "tooltip"></div> <!-- div to hold tooltip. -->
+
+<div id = "container">
+	<svg id = "map"></svg> <!-- svg to hold the map. -->
+	<div id = "pie"></div> <!-- svg to hold the pie chart. -->
+	<div id = "table"></div> <!-- svg to hold the table view. -->
+</div>
+
+<div id = "histogram"></div> <!-- svg to hold the histogram. -->
+
 
 <script>
 var filteredData;
@@ -232,9 +239,7 @@ var freqData1=[];
 		});
 
 //Start creating the dashboard
-		var id="#dashboard";
-		 fData=freqData1;
-	//function dashboard(id, fData){
+		fData=freqData1;
 	    var barColor = 'steelblue';
 	    //TO COLOR
 	    function segColor(c){ return {_1980:"#3182bd", _1981:"#6baed6", _1984:"#9ecae1", _1986:"#c6dbef", _1987:"#e6550d", _1988:"#fd8d3c",
@@ -259,11 +264,11 @@ var freqData1=[];
 	    // function to handle histogram.
 	    var histoGram=function(fD){
 	        hG={},    hGDim = {t: 60, r: 0, b: 30, l: 0};
-	        hGDim.w = 1000 - hGDim.l - hGDim.r, 
-	        hGDim.h = 300 - hGDim.t - hGDim.b;
+	        hGDim.w = 900 - hGDim.l - hGDim.r, 
+	        hGDim.h = 280 - hGDim.t - hGDim.b;
 	            
 	        //create svg for histogram.
-	        var hGsvg = d3.select(id).append("svg")
+	        var hGsvg = d3.select("#histogram").append("svg")
 	            .attr("width", hGDim.w + hGDim.l + hGDim.r)
 	            .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
 	            .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
@@ -299,8 +304,8 @@ var freqData1=[];
 	        bars.append("text").text(function(d){ return d3.format(",")(d[1])})
 	            .attr("x", function(d) { return x(d[0])+x.rangeBand()/2; })
 	            .attr("y", function(d) { return y(d[1])-5; })
-	            .attr("text-anchor", "middle");
-	        
+	            .attr("text-anchor", "middle")
+	            .style("font-size", "10px");
 	        
 	        
 	        // create function to update the bars. This will be used by pie-chart.
@@ -320,8 +325,9 @@ var freqData1=[];
 	            // transition the frequency labels location and change value.
 	            bars.select("text").transition().duration(500)
 	                .text(function(d){ return d3.format(",")(d[1])})
-	                .attr("y", function(d) {return y(d[1])-5; });            
+	                .attr("y", function(d) {return y(d[1])-5; })
 	        } 
+
 	        function mouseoverH(d){  // utility function to be called on mouseover.
 	            // filter for selected state.
 
@@ -341,11 +347,11 @@ var freqData1=[];
 	    }
 	    // function to handle pieChart.
 	    function pieChart(pD){
-	        var pC ={},    pieDim ={w:250, h: 250};
+	        var pC ={},    pieDim ={w:200, h: 200};
 	        pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
 	                
 	        // create svg for pie chart.
-	        var piesvg = d3.select(id).append("svg")
+	        var piesvg = d3.select("#pie").append("svg")
 	            .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
 	            .attr("transform", "translate("+pieDim.w/2+","+pieDim.h/2+")");
 	        
@@ -393,7 +399,7 @@ var freqData1=[];
 	        var leg = {};
 	            
 	        // create table for legend.
-	        var legend = d3.select(id).append("table").attr('class','legend');
+	        var legend = d3.select("#table").append("table").attr('class','legend');
 	        
 	        // create one row per segment.
 	        var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
@@ -429,7 +435,6 @@ var freqData1=[];
 	        function getLegend(d,aD){ // Utility function to compute percentage.
 	            return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
 	        }
-
 	        return leg;
 	    }
 
@@ -445,8 +450,8 @@ fData.forEach(function(d){
 	sampleData[tempState].total=d.total;
 });
 
-/* draw states on id #statesvg */
-uStates.draw("#statesvg", sampleData, tooltipHtml,pC,leg,tF,hG);
+/* draw states on id #map */
+uStates.draw("#map", sampleData, tooltipHtml,pC,leg,tF,hG);
 });
 </script>
 </body>

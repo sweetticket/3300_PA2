@@ -76,7 +76,8 @@
 		d3.select(id).selectAll(".state")
 			.data(uStatePaths).enter().append("path").attr("class","state").attr("d",function(d){ return d.d;})
 			.style("fill",function(d){return data[d.id].color; })
-			.on("mouseover", mouseOver).on("mouseout", mouseOut);
+			.on("mouseover", mouseOver).on("mouseout", mouseOut)
+			.attr("transform", "scale(0.65)");
 	}
 	this.uStates=uStates;
 })();
