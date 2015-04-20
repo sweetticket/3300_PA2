@@ -79,7 +79,7 @@ d3.csv("filteredData.csv", function (error, rows)
 			stateMarkets[state][market] = 1;
 			stateMarkets[state]['topMarket'] = {};
 			stateMarkets[state]['topMarket']['name'] = market;
-			stateMarkets[state]['topMarket']['count'] = 1;
+			stateMarkets[state]['topMarket']['count'] = 1;q
 		}else{
 			if (stateMarkets[state][market]) {
 				var count = stateMarkets[state][market] + 1;
