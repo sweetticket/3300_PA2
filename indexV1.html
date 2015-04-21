@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css">
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'><script src="uStates.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'><script src="uStates.js"></script>
 </head>
 <body>
 
@@ -17,14 +17,25 @@
 
 <div id = "tooltip"></div> <!-- div to hold tooltip. -->
 
+<div id = "histogram"> <!-- svg to hold the histogram. -->
+	<h3 class = "titles">Histogram</h3>
+</div> 
+
 <div id = "container">
-	<svg id = "map"></svg> <!-- svg to hold the map. -->
-	<div id = "pie"></div> <!-- svg to hold the pie chart. -->
-	<div id = "table"></div> <!-- svg to hold the table view. -->
+
+	<div id = "mapContainer">
+		<h3 class = "titles">Map</h3>
+		<svg id = "map"></svg> <!-- svg to hold the map. -->
+	</div>
+
+	<div id = "pie"> <!-- svg to hold the pie chart. -->
+		<h3 class = "titles">Pie Chart</h3>
+	</div> 
+
+	<div id = "table"> <!-- svg to hold the table view. -->
+		<h3 class = "titles">Table</h3>
+	</div> 
 </div>
-
-<div id = "histogram"></div> <!-- svg to hold the histogram. -->
-
 
 <script>
 var filteredData;
@@ -65,11 +76,13 @@ d3.csv("filteredData.csv", function (error, rows)
 			return i;
 		}
 	);
+
 	states = ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
 	"ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
 	"MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
 	"CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
 	"WI", "MO", "AR", "OK", "KS", "LS", "VA"];
+
 	filteredData.values().forEach(function (d)
 	{
 		var state = d.company_state_code;
@@ -159,8 +172,7 @@ d3.csv("filteredData.csv", function (error, rows)
 		}
 	});
 
-
-	a=[];
+	a = [];
 	states.forEach(function(d){
 		a.push({state:d,number:0});
 	})
@@ -174,7 +186,7 @@ d3.csv("filteredData.csv", function (error, rows)
 		})
 	})
 
-	var whitetoblue=d3.scale.log().domain([1,2500]).range(["white","blue"]);
+	var whitetoblue=d3.scale.log().domain([1,2200]).range(["#E0EEFF","#0068E2"]);
 	var sampleData ={};	/* Sample random data. */
 
 	var topCatName=function(d){
@@ -238,14 +250,43 @@ var freqData1=[];
 		}
 		});
 
-//Start creating the dashboard
-		fData=freqData1;
-	    var barColor = 'steelblue';
+		//Start creating the histogram
+		fData = freqData1;
+	    var barColor = '#4A90E2';
+
 	    //TO COLOR
-	    function segColor(c){ return {_1980:"#3182bd", _1981:"#6baed6", _1984:"#9ecae1", _1986:"#c6dbef", _1987:"#e6550d", _1988:"#fd8d3c",
-		_1992:"#fdae6b", _1993:"#fdd0a2", _1994:"#31a354", _1995:"#74c476", _1996:"#393b79", _1997:"#5254a3", _1998:"#6b6ecf", _1999:"#9c9ede", _2000:"#637939",
-		_2001:"#8ca252", _2002:"#b5cf6b", _2003:"#cedb9c", _2004:"#8c6d31", _2005:"#bd9e39", _2006:"#e7ba52", _2007:"#e7cb94",
-			_2008:"#843c39", _2009:"#ad494a", _2010:"#d6616b", _2011:"#e7969c", _2012:"#7b4173", _2013:"#a55194", _2014:"#ce6dbd"}[c]; }
+	    function segColor(c)
+	    { 
+	    	return {_1980:"#3182bd", 
+	    			_1981:"#6baed6", 
+	    			_1984:"#9ecae1", 
+	    			_1986:"#c6dbef", 
+	    			_1987:"#e6550d", 
+	    			_1988:"#fd8d3c",
+					_1992:"#fdae6b", 
+					_1993:"#fdd0a2", 
+					_1994:"#31a354", 
+					_1995:"#74c476", 
+					_1996:"#393b79", 
+					_1997:"#5254a3", 
+					_1998:"#6b6ecf", 
+					_1999:"#9c9ede", 
+					_2000:"#637939",
+					_2001:"#8ca252", 
+					_2002:"#b5cf6b", 
+					_2003:"#cedb9c", 
+					_2004:"#8c6d31", 
+					_2005:"#bd9e39", 
+					_2006:"#e7ba52", 
+					_2007:"#e7cb94",
+					_2008:"#843c39", 
+					_2009:"#ad494a", 
+					_2010:"#d6616b", 
+					_2011:"#e7969c", 
+					_2012:"#7b4173", 
+					_2013:"#a55194", 
+					_2014:"#ce6dbd"}[c]; 
+		}
 	    //TO
 	    // compute total for each state.
 	    fData.forEach(function(d){d.total=d.freq._1980+d.freq._1984+d.freq._1986+d.freq._1987+
@@ -255,23 +296,26 @@ var freqData1=[];
 					  d.freq._2003+d.freq._2003+d.freq._2004+d.freq._2005+
 					  d.freq._2006+d.freq._2007+d.freq._2008+d.freq._2009+
 					  d.freq._2010+d.freq._2011+d.freq._2012+d.freq._2013+d.freq._2014;});
+
 	    sF = fData.map(function(d){return [d.State,d.total];});
+
 	    tF = ['_1980','_1981', '_1984', '_1986', '_1987','_1988',
 		'_1992', '_1993', '_1994', '_1995', '_1996', '_1997', '_1998', '_1999', '_2000',
 		'_2001', '_2002', '_2003', '_2004', '_2005', '_2006', '_2007','_2008','_2009','_2010', '_2011', '_2012', '_2013', '_2014'].map(function(d){ 
 	        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
 	    });  
+
 	    // function to handle histogram.
-	    var histoGram=function(fD){
+	    var histoGram = function(fD){
 	        hG={},    hGDim = {t: 60, r: 0, b: 30, l: 0};
-	        hGDim.w = 900 - hGDim.l - hGDim.r, 
+	        hGDim.w = 1050 - hGDim.l - hGDim.r, 
 	        hGDim.h = 280 - hGDim.t - hGDim.b;
 	            
 	        //create svg for histogram.
 	        var hGsvg = d3.select("#histogram").append("svg")
 	            .attr("width", hGDim.w + hGDim.l + hGDim.r)
 	            .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
-	            .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
+	            .attr("transform", "translate(" + hGDim.l +30+ "," + hGDim.t + ")");
 
 	        // create function for x-axis mapping.
 	        var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
@@ -347,13 +391,13 @@ var freqData1=[];
 	    }
 	    // function to handle pieChart.
 	    function pieChart(pD){
-	        var pC ={},    pieDim ={w:200, h: 200};
-	        pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
+	        var pC ={},    pieDim ={w:250, h: 360};
+	        pieDim.r = Math.min(pieDim.w, pieDim.h) / 2.3;
 	                
 	        // create svg for pie chart.
 	        var piesvg = d3.select("#pie").append("svg")
 	            .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
-	            .attr("transform", "translate("+pieDim.w/2+","+pieDim.h/2+")");
+	            .attr("transform", "translate(130,190)");
 	        
 	        // create function to draw the arcs of the pie slices.
 	        var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
@@ -405,8 +449,8 @@ var freqData1=[];
 	        var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
 	            
 	        // create the first column for each segment.
-	        tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")
-	            .attr("width", '16').attr("height", '16')
+	        tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("circle")
+	            .attr("r", 7).attr("cx", 8).attr("cy", 8)
 				.attr("fill",function(d){ return segColor(d.type); });
 	            
 	        // create the second column for each segment.
