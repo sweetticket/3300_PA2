@@ -231,6 +231,7 @@ var freqData1=[];
 			Web_Hosting:stateMarkets[d]['Web Hosting'],
 			Clean_Technology:stateMarkets[d]['Clean Technology'],
 			Software:stateMarkets[d]['Software'],
+			Lifestyle:stateMarkets[d]['Lifestyle'],
 			Biotechnology:stateMarkets[d]['Biotechnology'],
 			Advertising:stateMarkets[d]['Advertising'],
 			Curated_Web:stateMarkets[d]['Curated Web'],
@@ -271,6 +272,7 @@ var freqData1=[];
 	    //TO
 	    // compute total for each state.
 	    fData.forEach(function(d){
+			
 					  d.total = d.freq.Web_Hosting+
 					  d.freq.Clean_Technology+
 					  d.freq.Software+
@@ -286,7 +288,7 @@ var freqData1=[];
 					  d.freq.Public_Relations+
 					  d.freq.Other;
 					  });
-
+		
 	    sF = fData.map(function(d){return [d.State, d.total];});
 
 	    tF = ['Web_Hosting', 
