@@ -82,7 +82,11 @@ d3.csv("filteredData.csv", function (error, rows)
 	"MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
 	"CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
 	"WI", "MO", "AR", "OK", "KS", "LS", "VA"];
-
+	
+	topMarkets = ["Web Hosting", "Clean Technology", "Software", "Lifestyle", "Biotechnology",
+				  "Advertising", "Curated Web", "Fitness", "Health and Wellness",
+				  "Semiconductors", "Hardware + Software", "Security", "Public Relations"];
+	
 	filteredData.values().forEach(function (d)
 	{
 		var state = d.company_state_code;
@@ -98,38 +102,21 @@ d3.csv("filteredData.csv", function (error, rows)
 		// State Markets
 		if (stateMarkets[state] == null) {
 			stateMarkets[state] = {};
+			stateMarkets[state]['Web Hosting'] = 0;
+			stateMarkets[state]['Clean Technology'] = 0;
+			stateMarkets[state]['Software'] = 0;
+			stateMarkets[state]['Lifestyle'] = 0;
+			stateMarkets[state]['Biotechnology'] = 0;
+			stateMarkets[state]['Advertising'] = 0;
+			stateMarkets[state]['Curated Web'] = 0;
+			stateMarkets[state]['Fitness'] = 0;
+			stateMarkets[state]['Health and Wellness'] = 0;
+			stateMarkets[state]['Semiconductors'] = 0;
+			stateMarkets[state]['Hardware + Software'] = 0;
+			stateMarkets[state]['Security'] = 0;
+			stateMarkets[state]['Public Relations'] = 0;
+			stateMarkets[state]['Other'] = 0;
 			stateMarkets[state][market] = 1;
-			stateMarkets[state][1980] = 0;
-			stateMarkets[state][1981] = 0;
-			stateMarkets[state][1984] = 0;
-			stateMarkets[state][1986] = 0;
-			stateMarkets[state][1987] = 0;
-			stateMarkets[state][1988] = 0;
-			stateMarkets[state][1991] = 0;
-			stateMarkets[state][1992] = 0;
-			stateMarkets[state][1993] = 0;
-			stateMarkets[state][1994] = 0;
-			stateMarkets[state][1995] = 0;
-			stateMarkets[state][1996] = 0;
-			stateMarkets[state][1997] = 0;
-			stateMarkets[state][1998] = 0;
-			stateMarkets[state][1999] = 0;
-			stateMarkets[state][2000] = 0;	
-			stateMarkets[state][2001] = 0;
-			stateMarkets[state][2002] = 0;
-			stateMarkets[state][2003] = 0;
-			stateMarkets[state][2004] = 0;
-			stateMarkets[state][2005] = 0;
-			stateMarkets[state][2006] = 0;
-			stateMarkets[state][2007] = 0;
-			stateMarkets[state][2008] = 0;
-			stateMarkets[state][2009] = 0;
-			stateMarkets[state][2010] = 0;
-			stateMarkets[state][2011] = 0;
-			stateMarkets[state][2012] = 0;
-			stateMarkets[state][2013] = 0;
-			stateMarkets[state][2014] = 0;
-			stateMarkets[state][year] = 1;
 			stateMarkets[state]['topMarket'] = {};
 			stateMarkets[state]['topMarket']['name'] = market;
 			stateMarkets[state]['topMarket']['count'] = 1;
@@ -137,7 +124,7 @@ d3.csv("filteredData.csv", function (error, rows)
 			if (stateMarkets[state][market]) {
 				var count = stateMarkets[state][market] + 1;
 				stateMarkets[state][market] = count;
-				stateMarkets[state][year]++;
+				//stateMarkets[state][year]++;
 				// Update Top Market
 				if (count > stateMarkets[state]['topMarket']['count']) {
 					stateMarkets[state]['topMarket']['name'] = market;
@@ -147,6 +134,9 @@ d3.csv("filteredData.csv", function (error, rows)
 				stateMarkets[state][market] = 1;
 			}
 		}
+		if (topMarkets.indexOf(market) < 0) {
+				stateMarkets[state]['Other']++;
+			}
 		// State Categories
 		if (stateCategories[state] == null) {
 			stateCategories[state] = {};
@@ -171,7 +161,7 @@ d3.csv("filteredData.csv", function (error, rows)
 			});
 		}
 	});
-
+	
 	a = [];
 	states.forEach(function(d){
 		a.push({state:d,number:0});
@@ -221,7 +211,13 @@ d3.csv("filteredData.csv", function (error, rows)
 		sampleData[d.state] = {number:d.number,common:topMarName(stateMarkets[d.state]),color:whitetoblue(d.number+1)}; 
 	
 	});
-
+	
+	topMarketsList = [];
+	states.forEach(function(d){		
+		if (topMarketsList.indexOf(topMarName(stateMarkets[d])) < 0) {
+			topMarketsList.push(topMarName(stateMarkets[d]));
+		}
+	});
 
 var hG,pC,leg,sF,tF;
 
@@ -232,21 +228,20 @@ var freqData1=[];
 			
 		var t=topMarCount(stateMarkets[d]);
 		freqData1.push({State:d,freq:{
-			_1980:stateMarkets[d][1998], _1981:stateMarkets[d][1981], _1984:stateMarkets[d][1984],
-			_1986:stateMarkets[d][1986], _1987:stateMarkets[d][1987], _1988:stateMarkets[d][1988],
-			_1992:stateMarkets[d][1992],
-			
-			_1993:stateMarkets[d][1993], _1994:stateMarkets[d][1994], _1995:stateMarkets[d][1995],
-			_1996:stateMarkets[d][1996], _1997:stateMarkets[d][1997], _1998:stateMarkets[d][1998],
-			_1999:stateMarkets[d][1999],
-			
-			_2000:stateMarkets[d][2000], _2001:stateMarkets[d][2001], _2002:stateMarkets[d][2002],
-			_2003:stateMarkets[d][2003], _2004:stateMarkets[d][2004], _2005:stateMarkets[d][2005],
-			_2006:stateMarkets[d][2006], _2007:stateMarkets[d][2007],
-										
-			_2008:stateMarkets[d][2008], _2009:stateMarkets[d][2009], _2010:stateMarkets[d][2010],
-										_2011:stateMarkets[d][2011], _2012:stateMarkets[d][2012], _2013:stateMarkets[d][2013],
-										_2014:stateMarkets[d][2014]}})
+			Web_Hosting:stateMarkets[d]['Web Hosting'],
+			Clean_Technology:stateMarkets[d]['Clean Technology'],
+			Software:stateMarkets[d]['Software'],
+			Biotechnology:stateMarkets[d]['Biotechnology'],
+			Advertising:stateMarkets[d]['Advertising'],
+			Curated_Web:stateMarkets[d]['Curated Web'],
+			Fitness:stateMarkets[d]['Fitness'],
+			Health_and_Wellness:stateMarkets[d]['Health and Wellness'],
+			Semiconductors:stateMarkets[d]['Semiconductors'],
+			Hardware_and_Software:stateMarkets[d]['Hardware + Software'],
+			Security:stateMarkets[d]['Security'],
+			Public_Relations:stateMarkets[d]['Public Relations'],
+			Other:stateMarkets[d]['Other']
+		}});
 		}
 		});
 
@@ -257,53 +252,59 @@ var freqData1=[];
 	    //TO COLOR
 	    function segColor(c)
 	    { 
-	    	return {_1980:"#3182bd", 
-	    			_1981:"#6baed6", 
-	    			_1984:"#9ecae1", 
-	    			_1986:"#c6dbef", 
-	    			_1987:"#e6550d", 
-	    			_1988:"#fd8d3c",
-					_1992:"#fdae6b", 
-					_1993:"#fdd0a2", 
-					_1994:"#31a354", 
-					_1995:"#74c476", 
-					_1996:"#393b79", 
-					_1997:"#5254a3", 
-					_1998:"#6b6ecf", 
-					_1999:"#9c9ede", 
-					_2000:"#637939",
-					_2001:"#8ca252", 
-					_2002:"#b5cf6b", 
-					_2003:"#cedb9c", 
-					_2004:"#8c6d31", 
-					_2005:"#bd9e39", 
-					_2006:"#e7ba52", 
-					_2007:"#e7cb94",
-					_2008:"#843c39", 
-					_2009:"#ad494a", 
-					_2010:"#d6616b", 
-					_2011:"#e7969c", 
-					_2012:"#7b4173", 
-					_2013:"#a55194", 
-					_2014:"#ce6dbd"}[c]; 
+	    	return {
+					Web_Hosting:"#8ca252", 
+					Clean_Technology:"#b5cf6b", 
+					Software:"#cedb9c", 
+					Lifestyle:"#8c6d31", 
+					Biotechnology:"#bd9e39", 
+					Advertising:"#e7ba52", 
+					Curated_Web:"#e7cb94",
+					Fitness:"#843c39", 
+					Health_and_Wellness:"#ad494a", 
+					Semiconductors:"#d6616b", 
+					Hardware_and_Software:"#e7969c", 
+					Security:"#7b4173", 
+					Public_Relations:"#a55194", 
+					Other:"#ce6dbd"}[c]; 
 		}
 	    //TO
 	    // compute total for each state.
-	    fData.forEach(function(d){d.total=d.freq._1980+d.freq._1984+d.freq._1986+d.freq._1987+
-					  d.freq._1988+d.freq._1992+d.freq._1993+d.freq._1994+
-					  d.freq._1995+d.freq._1996+d.freq._1997+d.freq._1998+
-					  d.freq._1999+d.freq._2000+d.freq._2001+d.freq._2002+
-					  d.freq._2003+d.freq._2003+d.freq._2004+d.freq._2005+
-					  d.freq._2006+d.freq._2007+d.freq._2008+d.freq._2009+
-					  d.freq._2010+d.freq._2011+d.freq._2012+d.freq._2013+d.freq._2014;});
+	    fData.forEach(function(d){
+					  d.total = d.freq.Web_Hosting+
+					  d.freq.Clean_Technology+
+					  d.freq.Software+
+					  d.freq.Lifestyle+
+					  d.freq.Biotechnology+
+					  d.freq.Advertising+
+					  d.freq.Curated_Web+
+					  d.freq.Fitness+
+					  d.freq.Health_and_Wellness+
+					  d.freq.Semiconductors+
+					  d.freq.Hardware_and_Software+
+					  d.freq.Security+
+					  d.freq.Public_Relations+
+					  d.freq.Other;
+					  });
 
-	    sF = fData.map(function(d){return [d.State,d.total];});
+	    sF = fData.map(function(d){return [d.State, d.total];});
 
-	    tF = ['_1980','_1981', '_1984', '_1986', '_1987','_1988',
-		'_1992', '_1993', '_1994', '_1995', '_1996', '_1997', '_1998', '_1999', '_2000',
-		'_2001', '_2002', '_2003', '_2004', '_2005', '_2006', '_2007','_2008','_2009','_2010', '_2011', '_2012', '_2013', '_2014'].map(function(d){ 
-	        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
-	    });  
+	    tF = ['Web_Hosting', 
+					'Clean_Technology', 
+					'Software', 
+					'Lifestyle', 
+					'Biotechnology', 
+					'Advertising', 
+					'Curated_Web',
+					'Fitness', 
+					'Health_and_Wellness', 
+					'Semiconductors', 
+					'Hardware_and_Software', 
+					'Security', 
+					'Public_Relations', 
+					'Other'].map(function(d){
+	        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}) )};
+	    });
 
 	    // function to handle histogram.
 	    var histoGram = function(fD){
@@ -454,7 +455,7 @@ var freqData1=[];
 				.attr("fill",function(d){ return segColor(d.type); });
 	            
 	        // create the second column for each segment.
-	        tr.append("td").text(function(d){ return d.type.slice(1,5);});
+	        tr.append("td").text(function(d){ return d.type.replace(/_/g,' ');});
 
 	        // create the third column for each segment.
 	        tr.append("td").attr("class",'legendFreq')
