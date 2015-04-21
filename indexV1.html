@@ -308,14 +308,14 @@ var freqData1=[];
 	    // function to handle histogram.
 	    var histoGram = function(fD){
 	        hG={},    hGDim = {t: 60, r: 0, b: 30, l: 0};
-	        hGDim.w = 1200 - hGDim.l - hGDim.r, 
-	        hGDim.h = 300 - hGDim.t - hGDim.b;
+	        hGDim.w = 1050 - hGDim.l - hGDim.r, 
+	        hGDim.h = 280 - hGDim.t - hGDim.b;
 	            
 	        //create svg for histogram.
 	        var hGsvg = d3.select("#histogram").append("svg")
 	            .attr("width", hGDim.w + hGDim.l + hGDim.r)
 	            .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
-	            .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
+	            .attr("transform", "translate(" + hGDim.l +30+ "," + hGDim.t + ")");
 
 	        // create function for x-axis mapping.
 	        var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
@@ -391,13 +391,13 @@ var freqData1=[];
 	    }
 	    // function to handle pieChart.
 	    function pieChart(pD){
-	        var pC ={},    pieDim ={w:300, h: 360};
+	        var pC ={},    pieDim ={w:250, h: 360};
 	        pieDim.r = Math.min(pieDim.w, pieDim.h) / 2.3;
 	                
 	        // create svg for pie chart.
 	        var piesvg = d3.select("#pie").append("svg")
 	            .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
-	            .attr("transform", "translate(155,200)");
+	            .attr("transform", "translate(130,190)");
 	        
 	        // create function to draw the arcs of the pie slices.
 	        var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
