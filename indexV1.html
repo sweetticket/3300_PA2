@@ -28,14 +28,16 @@
 		<svg id = "map"></svg> <!-- svg to hold the map. -->
 	</div>
 
-	<div id = "pie"> <!-- svg to hold the pie chart. -->
-		<h3 class = "titles">Pie Chart</h3>
-	</div> 
+	<div id = "pieContainer">
+		<div id = "pie"> <!-- svg to hold the pie chart. -->
+			<h3 class = "titles">Pie Chart</h3>
+		</div> 
+		<div id = "table"><!-- svg to hold the table view. -->
+		</div>  
+	</div>
 
-	<div id = "table"> <!-- svg to hold the table view. -->
-		<h3 class = "titles">Table</h3>
-	</div> 
 </div>
+
 
 <script>
 var filteredData;
@@ -400,7 +402,7 @@ var freqData1=[];
 	        // create svg for pie chart.
 	        var piesvg = d3.select("#pie").append("svg")
 	            .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
-	            .attr("transform", "translate(130,190)");
+	            .attr("transform", "translate(125,190)");
 	        
 	        // create function to draw the arcs of the pie slices.
 	        var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
