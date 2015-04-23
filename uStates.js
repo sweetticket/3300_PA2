@@ -56,12 +56,18 @@
 		
 	uStates.draw = function(id, data, toolTip,pC,leg,tF,hG){		
 		function mouseOver(d){
+
+			if (d.id == "LS" || d.id == "SD") {
+				d3.select("#pieTitle").html("Total Market Distribution");
+			}
+			else {
+				d3.select("#pieTitle").html(d.id + " Market Distribution");
+			}
             var st=data[d.id];
             nD = d3.keys(st.freq).map(function(s){ return {type:s, freq:st.freq[s]};});
            	pC.update(nD);
             leg.update(nD);
             d3.select("#tooltip").transition().duration(200).style("opacity", .9);      
-			
 			d3.select("#tooltip").html(toolTip(d.n, data[d.id]))  
 				.style("left", (d3.event.pageX) + "px")     
 				.style("top", (d3.event.pageY - 28) + "px");
@@ -70,7 +76,9 @@
 		function mouseOut(){
 			pC.update(tF);
    	      	leg.update(tF);
-			d3.select("#tooltip").transition().duration(500).style("opacity", 0);      
+			d3.select("#tooltip").transition().duration(500).style("opacity", 0);  
+			d3.select("#pieTitle").html("Total Market Distribution");
+    
 		}
 		
 		d3.select(id).selectAll(".state")
