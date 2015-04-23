@@ -11,7 +11,7 @@
 	<h1> STARTUP ACQUISITIONS </h1>
 	<h3> Data from CrunchBase, Oct 2014 </h3>
 	<p>
-	This is a snapshot of startup acquisitions from CrunchBase. This data was extracted from CrunchBase on October 07 2014. Here we can add more introduction to our dataset and how users can interact with our graphs.
+	This is a snapshot of startup acquisitions from CrunchBase. This data was extracted from CrunchBase on October 07 2014. It lists startup companies in the United States. Below the data is displayed by state, with a darker color representing more startups. The pie graph represents the breakdown between the most common 14 categories, and updates based on state selected. The histogram represents the same data as the map, but changes based on which category is selected.
 	</p>
 </div>
 
@@ -53,15 +53,12 @@ var fData;
 
 function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
 	return "<h4>"+n+"</h4><table>"+
-		// "<tr><td>Low</td><td>"+(d.low)+"</td></tr>"+
-		// "<tr><td>Average</td><td>"+(d.avg)+"</td></tr>"+
-		// "<tr><td>High</td><td>"+(d.high)+"</td></tr>"+
-		// "</table>";
 		"<hr>"+
 		"<tr><td>Acquisitions: </td><td>"+(d.number)+"</td></tr>"+
 		"<tr><td>Market: </td><td>"+(d.common)+"</td></tr>"+
 		"</table>";
 }
+//splits of a string into an array based on the | character and removes the first and last empty element
 var splitCategory = function(categories)
 {
 	categories = categories.split("|");
@@ -69,8 +66,10 @@ var splitCategory = function(categories)
 	categories.pop();
 	return categories;
 }
+//start manipulating the page with d3
 d3.csv("filteredData.csv", function (error, rows) 
 {
+	//import csv file
 	var i =- 1;
 	filteredData = d3.map(rows,
 		function (row) {
@@ -89,6 +88,7 @@ d3.csv("filteredData.csv", function (error, rows)
 				  "Advertising", "Curated Web", "Fitness", "Health and Wellness",
 				  "Semiconductors", "Hardware + Software", "Security", "Public Relations"];
 	
+	//convert large data entry to only the data needed in companyStateCategories
 	filteredData.values().forEach(function (d)
 	{
 		var state = d.company_state_code;
@@ -100,7 +100,8 @@ d3.csv("filteredData.csv", function (error, rows)
 			"state":state,
 			"categories":categories
 		});
-		
+		//implemented code for top category as well as top market
+		//current code with top market
 		// State Markets
 		if (stateMarkets[state] == null) {
 			stateMarkets[state] = {};
@@ -126,7 +127,6 @@ d3.csv("filteredData.csv", function (error, rows)
 			if (stateMarkets[state][market]) {
 				var count = stateMarkets[state][market] + 1;
 				stateMarkets[state][market] = count;
-				//stateMarkets[state][year]++;
 				// Update Top Market
 				if (count > stateMarkets[state]['topMarket']['count']) {
 					stateMarkets[state]['topMarket']['name'] = market;
@@ -163,7 +163,7 @@ d3.csv("filteredData.csv", function (error, rows)
 			});
 		}
 	});
-	
+	//create 
 	a = [];
 	states.forEach(function(d){
 		a.push({state:d,number:0});
@@ -178,9 +178,11 @@ d3.csv("filteredData.csv", function (error, rows)
 		})
 	})
 
+	//scale map color
 	var whitetoblue=d3.scale.log().domain([1,2200]).range(["#E0EEFF","#0068E2"]);
 	var sampleData ={};	/* Sample random data. */
 
+	//functions to return top category and top market names
 	var topCatName=function(d){
 		if (d==null){
 			return "None";
@@ -208,12 +210,13 @@ d3.csv("filteredData.csv", function (error, rows)
 		}
 		else return Math.floor(Math.log(d.topMarket.count));
 	}
-
+	//create sampleData that is what will be drawn onto map
 	statesTotalNumber.forEach(function(d){
 		sampleData[d.state] = {number:d.number,common:topMarName(stateMarkets[d.state]),color:whitetoblue(d.number+1)}; 
 	
 	});
 	
+	//creates topMarketList
 	topMarketsList = [];
 	states.forEach(function(d){		
 		if (topMarketsList.indexOf(topMarName(stateMarkets[d])) < 0) {
@@ -252,7 +255,7 @@ var freqData1=[];
 		fData = freqData1;
 	    var barColor = '#4A90E2';
 
-	    //TO COLOR
+	    //colors for each segment
 	    function segColor(c)
 	    { 
 	    	return {
@@ -271,7 +274,6 @@ var freqData1=[];
 					Public_Relations:"#a55194", 
 					Other:"#ce6dbd"}[c]; 
 		}
-	    //TO
 	    // compute total for each state.
 	    fData.forEach(function(d){
 			
@@ -492,7 +494,7 @@ var freqData1=[];
 	        leg= legend(tF);  // create the legend.
 	//}
 	
-
+//update sampleData with frequency of market and total number, will be used when hovering over pie or histogram
 fData.forEach(function(d){
 	var tempState=d.State.toString();
 	sampleData[tempState].freq=d.freq;
