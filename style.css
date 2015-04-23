@@ -7,7 +7,7 @@ body
 #header
 {
 	width: 1100px;
-	height: 150px;
+	height: 210px;
 	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
@@ -31,9 +31,10 @@ body
 #header p
 {
 	padding-top: 10px;
-	font-size: 14px;
+	font-size: 15px;
 	text-align: left;
-	width: 70%;
+	width: 80%;
+	line-height: 24px;
 }
 
 .titles
@@ -115,17 +116,6 @@ body
     border-collapse: collapse;
     border-spacing: 0px;
     padding-top: 10px;
-}
-
-.legend tr
-{    
-/*	border-bottom:1px solid #d8d8d8;
-*/}
-
-.legend tr:first-child
-{    
-/*	border-top:1px solid #d8d8d8; 
-*/
 }
 
 .legend td
