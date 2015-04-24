@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css">
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'><script src="uStates.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'><script src="References/uStates.js"></script>
 </head>
 <body>
 
@@ -15,29 +15,28 @@
 	</p>
 </div>
 
-<div id = "tooltip"></div> <!-- div to hold tooltip. -->
-
-<div id = "histogram"> <!-- svg to hold the histogram. -->
+<!-- div to hold tooltip. -->
+<div id = "tooltip"></div> 
+<!-- svg to hold the histogram. -->
+<div id = "histogram"> 
 	<h3 class = "titles">Acquisition Distribution by States</h3>
 </div> 
 
 <div id = "container">
-
+	<!-- svg to hold the map. -->
 	<div id = "mapContainer">
 		<h3 class = "titles">Map</h3>
-		<svg id = "map"></svg> <!-- svg to hold the map. -->
+		<svg id = "map"></svg> 
 	</div>
-
+	<!-- svg to hold the pie chart and its legend -->
 	<div id = "pieContainer">
-		<div id = "pie"> <!-- svg to hold the pie chart. -->
+		<div id = "pie"> 
 			<h3 class = "titles" id = "pieTitle">Total Market Distribution</h3>
 		</div> 
-		<div id = "table"><!-- svg to hold the table view. -->
+		<div id = "table">
 		</div>  
 	</div>
-
 </div>
-
 
 <script>
 /*The below code is modified from http://bl.ocks.org/NPashaP/a74faf20b492ad377312 (map) and http://bl.ocks.org/NPashaP/96447623ef4d342ee09b (histogram/pie graph). We were unable to put this in a separate script because we needed to modify many of the functions and data to display our data correctly. */
@@ -77,7 +76,7 @@ var splitCategory = function(categories)
 	return categories;
 }
 //start manipulating the page with d3
-d3.csv("filteredData.csv", function (error, rows) 
+d3.csv("Datasets/filteredData.csv", function (error, rows) 
 {
 	//import csv file
 	var i =- 1;
