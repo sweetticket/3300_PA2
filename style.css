@@ -4,6 +4,7 @@ body
     font-family: 'Lato', sans-serif;
 }
 
+/* Header */
 #header
 {
 	width: 1100px;
@@ -37,6 +38,7 @@ body
 	line-height: 24px;
 }
 
+/* Titles for each graph */
 .titles
 {
 	position: absolute;
@@ -45,6 +47,7 @@ body
 	margin-top: 20px;
 }
 
+/* Histogram */
 #histogram
 {
 	width: 1100px;
@@ -56,6 +59,7 @@ body
 	border-radius: 7px;
 }
 
+/* div for the map, pie chart and legend */
 #container
 {
 	width: 1100px;
@@ -64,6 +68,7 @@ body
 	margin-right: auto;
 }
 
+/* map */
 #mapContainer
 {
 	width: 560px;
@@ -81,61 +86,6 @@ body
 	height: 400px;
 }
 
-#pieContainer
-{
-	float: left;
-	width: 510px;
-	height: 400px;
-	border: 2px solid #E9E9E9;
-	border-radius: 7px;
-	margin-left: 20px;
-	margin-top: 20px;
-}
-
-#pie
-{
-	width: 250px;
-	height: 400px;
-	float: left;
-	display: block;
-}
-
-#table
-{
-	margin-left: 10px;
-	width: 220px;
-	height: 400px;
-	display: block;
-	float: left;
-	font-size: 11px;
-}
-
-.legend
-{
-    display:inline-block;
-    border-collapse: collapse;
-    border-spacing: 0px;
-    padding-top: 10px;
-}
-
-.legend td
-{
-    padding:4px 5px;
-    vertical-align:center;
-}
-
-.legendFreq
-{
-    text-align:left;
-    width:24px;
-}
-
-.legendPerc
-{
-	text-align:right;
-    width:24px;
-}
-
 .state
 {
 	fill: none;
@@ -148,6 +98,7 @@ body
 	fill-opacity:0.7;
 }
 
+/* tool tip for map */
 #tooltip 
 {   
 	position: absolute;           
@@ -240,4 +191,61 @@ rect:hover
 .x.axis path 
 {  
 	display: none; 
+}
+
+/* pie chart */
+#pieContainer
+{
+	float: left;
+	width: 510px;
+	height: 400px;
+	border: 2px solid #E9E9E9;
+	border-radius: 7px;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+#pie
+{
+	width: 250px;
+	height: 400px;
+	float: left;
+	display: block;
+}
+
+/* legend */
+#table
+{
+	margin-left: 10px;
+	width: 220px;
+	height: 400px;
+	display: block;
+	float: left;
+	font-size: 11px;
+}
+
+.legend
+{
+    display:inline-block;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    padding-top: 10px;
+}
+
+.legend td
+{
+    padding:4px 5px;
+    vertical-align:center;
+}
+
+.legendFreq
+{
+    text-align:left;
+    width:24px;
+}
+
+.legendPerc
+{
+	text-align:right;
+    width:24px;
 }

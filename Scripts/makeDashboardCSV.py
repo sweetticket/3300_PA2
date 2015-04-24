@@ -17,7 +17,7 @@ colnames = ['company_permalink','company_name','company_category_list','company_
             'acquirer_category_list','acquirer_market','acquirer_country_code','acquirer_state_code',
             'acquirer_region','acquirer_city','acquired_at','acquired_month','acquired_quarter','acquired_year',
             'price_amount','price_currency_code']
-data = pandas.read_csv('filteredData.csv', names=colnames)
+data = pandas.read_csv('../Datasets/filteredData.csv', names=colnames)
 years = list(data.acquired_year)
 markets = list(data.company_market)
 
@@ -32,8 +32,8 @@ for i in removeDups(markets):
 THRESHOLD = 75
 
 # get input and output files
-f_reader = open('CrunchBase_Acquisitions.csv', 'rU')
-f_writer = open('dashboard.csv','wt')
+f_reader = open('../Datasets/CrunchBase_Acquisitions.csv', 'rU')
+f_writer = open('../Datasets/dashboard.csv','wt')
 
 # clear output file
 f_writer.truncate()

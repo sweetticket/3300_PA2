@@ -2,8 +2,8 @@ import csv
 import sys
 
 # get input and output files
-f_reader = open('CrunchBase_Acquisitions.csv', 'rU')
-f_writer = open('filteredData.csv','wt')
+f_reader = open('../Datasets/CrunchBase_Acquisitions.csv', 'rU')
+f_writer = open('../Datasets/filteredData.csv','wt')
 
 # clear output file
 f_writer.truncate()
